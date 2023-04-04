@@ -3,3 +3,6 @@
 ################################################################################
 
 /.vs
+/bug-tracker/.vs/bug-tracker
+/bug-tracker/bug-tracker/bin/Debug/net6.0
+/bug-tracker/bug-tracker/obj
