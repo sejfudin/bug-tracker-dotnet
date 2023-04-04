@@ -14,19 +14,19 @@ namespace bug_tracker.Controllers
         }
 
         [HttpGet("GetAll")]
-        public ActionResult<List<Bug>> Get()
+        public ActionResult<List<GetBugDto>> Get()
         {
             return Ok(_bugService.GetAllBugs()); 
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Bug> GetSingle(int id)
+        public ActionResult<GetBugDto> GetSingle(int id)
         {
             return Ok(_bugService.GetBugById(id));
         }
 
         [HttpPost]
-        public ActionResult<List<Bug>> AddBug(Bug newBug)
+        public ActionResult<List<GetBugDto>> AddBug(AddBugDto newBug)
         {
             return Ok(_bugService.AddBug(newBug));
         }

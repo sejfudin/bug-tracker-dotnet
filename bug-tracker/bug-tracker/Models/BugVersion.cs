@@ -1,6 +1,6 @@
 ﻿namespace bug_tracker.Models
 {
-    public enum Version
+    public enum BugVersion
     {
         Low = 1,
         Medium = 2,
