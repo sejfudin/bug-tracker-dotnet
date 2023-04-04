@@ -2,6 +2,8 @@ global using bug_tracker.Models;
 global using bug_tracker.Services.BugService;
 global using Microsoft.EntityFrameworkCore;
 global using bug_tracker.Data;
+global using AutoMapper;
+global using bug_tracker.Dtos.Bug;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
+builder.Services.AddScoped<IBugService ,BugService>();
 
 var app = builder.Build();
 

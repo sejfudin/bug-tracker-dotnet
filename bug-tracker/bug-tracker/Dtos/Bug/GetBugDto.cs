@@ -1,6 +1,6 @@
-﻿namespace bug_tracker.Models
+﻿namespace bug_tracker.Dtos.Bug
 {
-    public class Bug
+    public class GetBugDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -9,6 +9,5 @@
         public BugVersion Version { get; set; }
         public string Priority { get; set; }
         public string Time { get; set; }
-
     }
 }
