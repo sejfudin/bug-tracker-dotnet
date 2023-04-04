@@ -1,4 +1,5 @@
 global using bug_tracker.Models;
+global using bug_tracker.Services.BugService;
 global using Microsoft.EntityFrameworkCore;
 global using bug_tracker.Data;
 
