@@ -5,8 +5,9 @@ namespace bug_tracker.Services.BugService
     {
         Task<List<GetBugDto>> GetAllBugs();
         Task<GetBugDto> GetBugById(int id);
-
         Task<List<GetBugDto>> AddBug(AddBugDto newBug);
+        Task<GetBugDto> UpdateBug(UpdateBugDto updatedBug);
+        Task<List<GetBugDto>> DeleteBug(int id);
 
     }
 }
