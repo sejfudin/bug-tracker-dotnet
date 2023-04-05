@@ -14,21 +14,21 @@ namespace bug_tracker.Controllers
         }
 
         [HttpGet("GetAll")]
-        public ActionResult<List<GetBugDto>> Get()
+        public async Task<ActionResult<List<GetBugDto>>> Get()
         {
-            return Ok(_bugService.GetAllBugs()); 
+            return Ok(await _bugService.GetAllBugs()); 
         }
 
         [HttpGet("{id}")]
-        public ActionResult<GetBugDto> GetSingle(int id)
+        public async Task<ActionResult<GetBugDto>> GetSingle(int id)
         {
-            return Ok(_bugService.GetBugById(id));
+            return Ok(await _bugService.GetBugById(id));
         }
 
         [HttpPost]
-        public ActionResult<List<GetBugDto>> AddBug(AddBugDto newBug)
+        public async Task<ActionResult<List<GetBugDto>>> AddBug(AddBugDto newBug)
         {
-            return Ok(_bugService.AddBug(newBug));
+            return Ok(await _bugService.AddBug(newBug));
         }
 
     }
