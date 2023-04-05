@@ -4,23 +4,35 @@ namespace bug_tracker.Services.BugService
     public class BugService : IBugService
     {
         private readonly IMapper _mapper;
-        public BugService(IMapper mapper)
+        private readonly DataContext _context;
+        public BugService(IMapper mapper, DataContext context)
         {
+            _context = context;
             _mapper = mapper;
         }
-        public List<GetBugDto> AddBug(AddBugDto newBug)
+        public async Task<List<GetBugDto>> AddBug(AddBugDto newBug)
         {
-            return null;
+            var bug = _mapper.Map<Bug>(newBug);
+            _context.Bugs.Add(bug);
+            await _context.SaveChangesAsync();
+
+            var response = await _context.Bugs.Select(b => _mapper.Map<GetBugDto>(b)).ToListAsync();
+            return response;
         }
 
-        public List<GetBugDto> GetAllBugs()
+        public async Task<List<GetBugDto>> GetAllBugs()
         {
-            return null;
+            var bugs = await _context.Bugs.ToListAsync();
+            var response = bugs.Select(b => _mapper.Map<GetBugDto>(b)).ToList();
+            return response;
         }
 
-        public GetBugDto GetBugById(int id)
+        public async Task<GetBugDto> GetBugById(int id)
         {
-            return null;
+            var bug = await _context.Bugs.FirstOrDefaultAsync(b => b.Id == id);
+            
+                var response = _mapper.Map<GetBugDto>(bug);
+                return response;
         }
     }
 }
