@@ -10,60 +10,114 @@ namespace bug_tracker.Services.BugService
             _context = context;
             _mapper = mapper;
         }
-        public async Task<List<GetBugDto>> AddBug(AddBugDto newBug)
+        public async Task<ServiceResponse<List<GetBugDto>>> AddBug(AddBugDto newBug)
         {
-            var bug = _mapper.Map<Bug>(newBug);
-            _context.Bugs.Add(bug);
-            await _context.SaveChangesAsync();
+            var serviceResponse = new ServiceResponse<List<GetBugDto>>();
 
-            var response = await _context.Bugs.Select(b => _mapper.Map<GetBugDto>(b)).ToListAsync();
-            return response;
-        }
-
-        public async Task<List<GetBugDto>> DeleteBug(int id)
-        {
-            var bug = await _context.Bugs.FirstOrDefaultAsync(c => c.Id == id);
-            if(bug is null)
+            try
             {
-                throw new Exception($"Bug with Id '{id}' not found.");
+                var bug = _mapper.Map<Bug>(newBug);
+                _context.Bugs.Add(bug);
+                await _context.SaveChangesAsync();
+
+                serviceResponse.Data = await _context.Bugs.Select(b => _mapper.Map<GetBugDto>(b)).ToListAsync();
+                serviceResponse.Message = "Bug successfully created.";
             }
-            _context.Bugs.Remove(bug);
-            await _context.SaveChangesAsync();
-
-            var response= await _context.Bugs.Select(b=>_mapper.Map<GetBugDto>(b)).ToListAsync();
-            return response;
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+            return serviceResponse;
         }
 
-        public async Task<List<GetBugDto>> GetAllBugs()
+        public async Task<ServiceResponse<List<GetBugDto>>> DeleteBug(int id)
         {
-            var bugs = await _context.Bugs.ToListAsync();
-            var response = bugs.Select(b => _mapper.Map<GetBugDto>(b)).ToList();
-            return response;
+            var serviceResponse = new ServiceResponse<List<GetBugDto>>();
+
+            try
+            {
+                var bug = await _context.Bugs.FirstOrDefaultAsync(c => c.Id == id);
+                if (bug is null)
+                {
+                    throw new Exception($"Bug with Id '{id}' not found.");
+                }
+                _context.Bugs.Remove(bug);
+                await _context.SaveChangesAsync();
+
+                serviceResponse.Data = await _context.Bugs.Select(b => _mapper.Map<GetBugDto>(b)).ToListAsync();
+                serviceResponse.Message = "Bug successfully deleted.";
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+            return serviceResponse;
         }
 
-        public async Task<GetBugDto> GetBugById(int id)
+        public async Task<ServiceResponse<List<GetBugDto>>> GetAllBugs()
         {
-            var bug = await _context.Bugs.FirstOrDefaultAsync(b => b.Id == id);
-
-            var response = _mapper.Map<GetBugDto>(bug);
-            return response;
+            var serviceResponse = new ServiceResponse<List<GetBugDto>>();
+            try
+            {
+                var bugs = await _context.Bugs.ToListAsync();
+                serviceResponse.Data = bugs.Select(b => _mapper.Map<GetBugDto>(b)).ToList();
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+            return serviceResponse;
         }
 
-        public async Task<GetBugDto> UpdateBug(UpdateBugDto updatedBug)
+        public async Task<ServiceResponse<GetBugDto>> GetBugById(int id)
         {
-            var bug = await _context.Bugs.FirstOrDefaultAsync(b => b.Id == updatedBug.Id);
+            var serviceResponse = new ServiceResponse<GetBugDto>();
+            try
+            {
+                var bug = await _context.Bugs.FirstOrDefaultAsync(b => b.Id == id);
 
-            bug.Name = updatedBug.Name;
-            bug.Steps = updatedBug.Steps;
-            bug.Details = updatedBug.Details;
-            bug.Version = updatedBug.Version;
-            bug.Priority = updatedBug.Priority;
-            bug.Time = updatedBug.Time;
+                serviceResponse.Data = _mapper.Map<GetBugDto>(bug);
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+            return serviceResponse;
+        }
 
-            await _context.SaveChangesAsync();
+        public async Task<ServiceResponse<GetBugDto>> UpdateBug(UpdateBugDto updatedBug)
+        {
+            var serviceResponse = new ServiceResponse<GetBugDto>();
+            try
+            {
+                var bug = await _context.Bugs.FirstOrDefaultAsync(b => b.Id == updatedBug.Id);
+                if (bug is null)
+                {
+                    throw new Exception($"Bug with Id '{updatedBug.Id}' not found.");
+                }
 
-            var response = _mapper.Map<GetBugDto>(bug);
-            return response;
+                bug.Name = updatedBug.Name;
+                bug.Steps = updatedBug.Steps;
+                bug.Details = updatedBug.Details;
+                bug.Version = updatedBug.Version;
+                bug.Priority = updatedBug.Priority;
+                bug.Time = updatedBug.Time;
+
+                await _context.SaveChangesAsync();
+
+                serviceResponse.Data = _mapper.Map<GetBugDto>(bug);
+                serviceResponse.Message = "Bug successfully updated.";
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+            return serviceResponse;
         }
     }
 }
