@@ -14,33 +14,43 @@ namespace bug_tracker.Controllers
         }
 
         [HttpGet("GetAll")]
-        public async Task<ActionResult<List<GetBugDto>>> Get()
+        public async Task<ActionResult<ServiceResponse<List<GetBugDto>>>> Get()
         {
-            return Ok(await _bugService.GetAllBugs()); 
+            return Ok(await _bugService.GetAllBugs());
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<GetBugDto>> GetSingle(int id)
+        public async Task<ActionResult<ServiceResponse<GetBugDto>>> GetSingle(int id)
         {
             return Ok(await _bugService.GetBugById(id));
         }
 
         [HttpPost]
-        public async Task<ActionResult<List<GetBugDto>>> AddBug(AddBugDto newBug)
+        public async Task<ActionResult<ServiceResponse<List<GetBugDto>>>> AddBug(AddBugDto newBug)
         {
             return Ok(await _bugService.AddBug(newBug));
         }
 
         [HttpPut]
-        public async Task<ActionResult<GetBugDto>> UpdateBug(UpdateBugDto updatedBug)
+        public async Task<ActionResult<ServiceResponse<GetBugDto>>> UpdateBug(UpdateBugDto updatedBug)
         {
-            return Ok(await _bugService.UpdateBug(updatedBug));
+            var response = await _bugService.UpdateBug(updatedBug);
+            if (response.Data is null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
         }
 
         [HttpDelete]
-        public async Task<ActionResult<GetBugDto>> DeleteBug(int id)
+        public async Task<ActionResult<ServiceResponse<GetBugDto>>> DeleteBug(int id)
         {
-            return Ok(await _bugService.DeleteBug(id));
+            var response = await _bugService.DeleteBug(id);
+            if (response.Data is null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
         }
 
     }
