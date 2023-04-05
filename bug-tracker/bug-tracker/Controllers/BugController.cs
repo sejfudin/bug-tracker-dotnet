@@ -31,5 +31,17 @@ namespace bug_tracker.Controllers
             return Ok(await _bugService.AddBug(newBug));
         }
 
+        [HttpPut]
+        public async Task<ActionResult<GetBugDto>> UpdateBug(UpdateBugDto updatedBug)
+        {
+            return Ok(await _bugService.UpdateBug(updatedBug));
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult<GetBugDto>> DeleteBug(int id)
+        {
+            return Ok(await _bugService.DeleteBug(id));
+        }
+
     }
 }
