@@ -11,7 +11,7 @@ using bug_tracker.Data;
 namespace bug_tracker.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230404220601_InitialCreate")]
+    [Migration("20230406155509_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -40,9 +40,8 @@ namespace bug_tracker.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Priority")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Priority")
+                        .HasColumnType("int");
 
                     b.Property<string>("Steps")
                         .IsRequired()
@@ -52,8 +51,9 @@ namespace bug_tracker.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Version")
-                        .HasColumnType("int");
+                    b.Property<string>("Version")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
