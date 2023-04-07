@@ -20,7 +20,8 @@ namespace bug_tracker.Services.BugService
                 _context.Bugs.Add(bug);
                 await _context.SaveChangesAsync();
 
-                serviceResponse.Data = await _context.Bugs.Select(b => _mapper.Map<GetBugDto>(b)).ToListAsync();
+                var response = await _context.Bugs.ToListAsync();
+                serviceResponse.Data = _mapper.Map<List<GetBugDto>>(response);
                 serviceResponse.Message = "Bug successfully created.";
             }
             catch (Exception ex)

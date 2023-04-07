@@ -8,5 +8,6 @@ namespace bug_tracker.Data
 
         }
         public DbSet<Bug> Bugs => Set<Bug>();
+        public DbSet<User> Users => Set<User>();
     }
 }

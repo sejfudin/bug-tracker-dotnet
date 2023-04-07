@@ -4,8 +4,8 @@
     {
         public AutoMapperProfile()
         {
-            CreateMap<Bug, GetBugDto>();
-            CreateMap<AddBugDto, Bug>();
+            CreateMap<Bug, GetBugDto>().ReverseMap();
+            CreateMap<AddBugDto, Bug>().ReverseMap();
         }
 
     }

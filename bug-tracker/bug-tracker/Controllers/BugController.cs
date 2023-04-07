@@ -26,7 +26,7 @@ namespace bug_tracker.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ServiceResponse<List<GetBugDto>>>> AddBug(AddBugDto newBug)
+        public async Task<ActionResult<ServiceResponse<List<GetBugDto>>>> AddBug([FromBody] AddBugDto newBug)
         {
             return Ok(await _bugService.AddBug(newBug));
         }
