@@ -9,6 +9,7 @@
         public BugPriority Priority { get; set; }
         public string Version { get; set; }
         public string Time { get; set; }
+        public User? User { get; set; }
 
     }
 }
